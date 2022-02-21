@@ -103,12 +103,13 @@ lblLength = Label(root, text="Length required?").grid(row=2, column=0)
 eLength = Entry(root, textvariable=cLen).grid(row=2, column=1)
 
 lblSpacer = Label(root, text=' ').grid(row=3, column=0)
+lblDefault = Label(root, text="Default: 8-12", fg="grey").grid(row=3, column=1)
 
 lblCred = Label(root, text="Generated Credential: ").grid(row=4, column=0)
 eOutput = Entry(root) ## grid addition has to be separated, otherwise check values return a 'None' before item is placed.
 eOutput.grid(row=4, column=1)
 
-btnGen = Button(root, text="Generate", command=btnGen).grid(row=6, column=0)
+btnGen = Button(root, text="Generate", command=btnTest).grid(row=6, column=1)
 
 
 root.mainloop()
