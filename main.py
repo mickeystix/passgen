@@ -8,6 +8,7 @@ import urllib.request
 root = Tk()
 root.geometry("300x180")
 root.title("PassGen")
+root.resizable(False, False)
 if os.path.exists("favicon.png"):
     favicon = PhotoImage(file = "favicon.png")
     root.iconphoto(True, favicon)
