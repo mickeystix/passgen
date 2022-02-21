@@ -1,8 +1,8 @@
-# passgen
+# passgen-expanded
 
-Simple Python / Tkinter password generator.
+Python / Tkinter password generator.
 
-This is obviously not packaged, but can be run from Python Shell or however you normally run python scripts.
+This is not packaged, but can be run from Python Shell or however you normally run python scripts.
 
 Requires TK, which nearly all modern python packages come with, but otherwise, run "pip install tk" to get it.
 
@@ -11,5 +11,8 @@ You can dictate which page it is going to grab from by swapping word_url variabl
 
 IMPORTANT: This is not secured, everything is generated in plain text. Do not use this in production if security is important to you.
 
+Includes a basic notepad, some debug information (Length checks) further exception handling and criteria enforcement, link to Git repo
 
-![dictpassgen](https://user-images.githubusercontent.com/30908995/155023164-205dbb40-12eb-4dde-8887-3fa53354517b.png)
+
+
+![pge](https://user-images.githubusercontent.com/30908995/155036348-eed31a5d-9371-4875-9ff9-0fd38e6c2279.png)
