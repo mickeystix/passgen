@@ -1,3 +1,6 @@
+## This is the backend for PassGen. Lightweight but also incredibly insecure password generation. Don't use this in any form of production, in other words.
+## This is the "console" version
+
 import string
 import random
 
