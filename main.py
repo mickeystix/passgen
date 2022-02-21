@@ -77,7 +77,7 @@ def pg(credentiallength, specrequired, numrequired):
 
 
 ## Button click function
-def btnGen():
+def gen():
     
     if cbSC.get() == 1:
         specrequired = True
@@ -109,7 +109,7 @@ lblCred = Label(root, text="Generated Credential: ").grid(row=4, column=0)
 eOutput = Entry(root) ## grid addition has to be separated, otherwise check values return a 'None' before item is placed.
 eOutput.grid(row=4, column=1)
 
-btnGen = Button(root, text="Generate", command=btnTest).grid(row=6, column=1)
+btnGen = Button(root, text="Generate", command=gen).grid(row=6, column=1)
 
 
 root.mainloop()
