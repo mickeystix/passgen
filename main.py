@@ -234,10 +234,14 @@ def openSettings():
     swSpacer.grid(row=0, column=2)
     swbtnSetWordListURL = Button(settingsWindow, text="Set", command= lambda: setNewWURL(sweWordListURL.get()))
     swbtnSetWordListURL.grid(row=0, column=2)
-    swbtnResetWordListURL = Button(settingsWindow, text="Reset", command=resetWURL)
+    swbtnResetWordListURL = Button(settingsWindow, text="Reset", command= lambda: [resetWURL(), resetURLDisplay()])
     swbtnResetWordListURL.grid(row=0, column=3)
     #swLogField = scrolledtext.ScrolledText(settingsWindow, state=DISABLED)
     #swLogField.grid(row=1, column=0, columnspan=12)
+
+    def resetURLDisplay():
+        sweWordListURL.delete(0, END)
+        sweWordListURL.insert(END, default_wordlisturl)
 
 
 
