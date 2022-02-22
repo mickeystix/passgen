@@ -1,5 +1,3 @@
-from cgitb import text
-from multiprocessing.connection import wait
 from tkinter import *
 import string
 import random
@@ -212,7 +210,8 @@ def gen():
     
 
 def insertText():
-    txtField.insert(END, (eOutput.get() + "\n"))
+    if eOutput.get() != '':
+        txtField.insert(END, (eOutput.get() + "\n"))
 
 def clearPad():
     txtField.delete(1.0, END)
