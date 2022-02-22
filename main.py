@@ -1,3 +1,5 @@
+from cgitb import text
+from multiprocessing.connection import wait
 from tkinter import *
 import string
 import random
@@ -17,8 +19,9 @@ if os.path.exists("favicon.png"):
 
 
 ## Variables and defaults for data entry/collection
-word_url = "https://www.mit.edu/~ecprice/wordlist.10000"
 gh = "https://github.com/mickeystix/passgen"
+default_wordlisturl = "https://www.mit.edu/~ecprice/wordlist.10000"
+custom_wordlisturl = ''
 cbSC = BooleanVar()
 cbNum = BooleanVar()
 cbDict = BooleanVar()
@@ -29,6 +32,22 @@ dictrequired = False
 
 
 ## Helper functions
+def setNewWURL(url):
+    global custom_wordlisturl
+    custom_wordlisturl = url
+
+def getWURL():
+    if custom_wordlisturl == '':
+        word_url = default_wordlisturl
+    else:
+        word_url = custom_wordlisturl
+    return word_url
+
+
+def resetWURL():
+    setNewWURL(default_wordlisturl)
+
+
 def getletter():
     return random.choice(string.ascii_letters)
 
@@ -40,11 +59,16 @@ def getspecial():
 
 ##Reach out to word list url and grab a random word
 def getdict():
-    response = urllib.request.urlopen(word_url)
-    long_txt = response.read().decode()
-    words = long_txt.splitlines()
-    selected = random.choice(words)
-    return selected
+    try:
+        response = urllib.request.urlopen(getWURL())
+        long_txt = response.read().decode()
+        words = long_txt.splitlines()
+        selected = random.choice(words)
+        return selected
+    except Exception:
+        eOutput.insert(END, "Dict URL Error")
+
+    
 
 
 ## Generate Credential
@@ -193,7 +217,31 @@ def insertText():
 def clearPad():
     txtField.delete(1.0, END)
 
-## GUI Items
+
+def openSettings():
+    ##Settings GUI Items
+    settingsWindow = Toplevel(root)
+    settingsWindow.title("Settings")
+    settingsWindow.geometry("620x200")
+    settingsWindow.resizable(False, False)
+    ## Word List Settings Items
+    swlblWordList = Label(settingsWindow, text="Wordlist")
+    swlblWordList.grid(row=0, column=0)
+    sweWordListURL = Entry(settingsWindow, width=80)
+    sweWordListURL.grid(row=0, column=1)
+    sweWordListURL.insert(END, getWURL())
+    swSpacer = Label(settingsWindow, text=" ")
+    swSpacer.grid(row=0, column=2)
+    swbtnSetWordListURL = Button(settingsWindow, text="Set", command= lambda: setNewWURL(sweWordListURL.get()))
+    swbtnSetWordListURL.grid(row=0, column=2)
+    swbtnResetWordListURL = Button(settingsWindow, text="Reset", command=resetWURL)
+    swbtnResetWordListURL.grid(row=0, column=3)
+    #swLogField = scrolledtext.ScrolledText(settingsWindow, state=DISABLED)
+    #swLogField.grid(row=1, column=0, columnspan=12)
+
+
+
+## Main GUI Items
 ## Spec Char checkbox
 lblSC = Label(root, text="Are Special Characters required?").grid(row=0, column=0)
 scChkbx = Checkbutton(root, variable=cbSC, onvalue=True, offvalue=False).grid(row=0, column=1)
@@ -239,6 +287,9 @@ txtField.grid(row=10, column=0, columnspan=12, padx=(10, 0))
 lblAbout = Label(root, text="View on GitHub", fg="blue", cursor="hand2")
 lblAbout.grid(row=0, column=11)
 lblAbout.bind("<Button-1>", lambda event: webbrowser.open(gh))
+
+## Settings button
+btnSettings = Button(root, text="Settings", command=openSettings).grid(row=1, column=11)
 
 
 root.mainloop()
