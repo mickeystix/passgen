@@ -8,7 +8,7 @@ import webbrowser
 
 ## Window 
 root = Tk()
-root.geometry("675x380")
+root.geometry("675x400")
 root.title("PassGen")
 root.resizable(False, False)
 if os.path.exists("favicon.png"):
@@ -190,7 +190,14 @@ def pg(credentiallength, specrequired, numrequired, dictrequired):
 
 ## Button click function
 def gen():
-    
+    ## Get the repeat counter
+    r = eRepeats.get()
+    if r != '':
+        r = int(r)
+    else:
+        r = 0
+
+    ## Parameters check/set
     if cbSC.get() == 1:
         specrequired = True
     else:
@@ -206,7 +213,18 @@ def gen():
     else:
         dictrequired = False
 
-    pg(cLen.get(), specrequired, numrequired, dictrequired)
+    ## Repetition handler
+    if r:
+        if r > 1:
+            while r != 0:
+                pg(cLen.get(), specrequired, numrequired, dictrequired)
+                txtField.insert(END, ("#" + str(r) + ": "))
+                insertText()
+                r -= 1
+        else:
+            pg(cLen.get(), specrequired, numrequired, dictrequired)
+    else:
+        pg(cLen.get(), specrequired, numrequired, dictrequired)
     
 
 def insertText():
@@ -266,12 +284,12 @@ lblSpacer = Label(root, text=' ').grid(row=4, column=0)
 lblDefault = Label(root, text="Default: 8-12", fg="grey").grid(row=4, column=1)
 
 ## Generated Credential Output field
-lblCred = Label(root, text="Generated Credential: ").grid(row=5, column=0)
+lblCred = Label(root, text="Generated Credential: ").grid(row=6, column=0)
 eOutput = Entry(root) ## grid addition has to be separated, otherwise check values return a 'None' before item is placed.
-eOutput.grid(row=5, column=1)
+eOutput.grid(row=6, column=1)
 
 ## Generate Credential Button
-btnGen = Button(root, text="Generate", command=gen).grid(row=6, column=1)
+btnGen = Button(root, text="Generate", command=gen).grid(row=7, column=1)
 
 ## Insert generated password into Text Area Button
 btnInsert = Button(root, text="Insert to Notepad", command=insertText).grid(row=9, column=10)
@@ -293,6 +311,11 @@ lblAbout.bind("<Button-1>", lambda event: webbrowser.open(gh))
 
 ## Settings button
 btnSettings = Button(root, text="Settings", command=openSettings).grid(row=1, column=11)
+
+## Repeats
+lblRepeats = Label(root, text="Iterations:").grid(row=5, column=0)
+eRepeats = Entry(root)
+eRepeats.grid(row=5, column=1)
 
 
 root.mainloop()
